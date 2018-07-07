@@ -1,3 +1,5 @@
+/// <reference types="../types"/>
+
 function get_canvas(id: string): HTMLCanvasElement {
   return <HTMLCanvasElement> document.getElementById(id);
 }
@@ -35,8 +37,8 @@ socket.on('detailed_frequencies', (data: number[]) => {
 
   max_magnitude *= 0.9;
 
-  for (let index = 2; index < data.length; index += 2) {
-    const magnitude = Math.sqrt(data[index]**2 + data[index+1]**2);
+  for (let index = 0; index < data.length; ++index) {
+    const magnitude = data[index];
     max_magnitude = Math.max(max_magnitude, magnitude);
     ctx.lineTo( Math.log2(index)*1024/Math.log2(data.length), (max_magnitude - magnitude)/max_magnitude * 512);
   }
@@ -57,11 +59,20 @@ socket.on('responsive_frequencies', (data: number[]) => {
 
   max_magnitude *= 0.9;
 
-  for (let index = 2; index < data.length; index += 2) {
-    const magnitude = Math.sqrt(data[index]**2 + data[index+1]**2);
+  for (let index = 0; index < data.length; ++index) {
+    const magnitude = data[index];
     max_magnitude = Math.max(max_magnitude, magnitude);
     ctx.lineTo( Math.log2(index)*1024/Math.log2(data.length), (max_magnitude - magnitude)/max_magnitude * 512);
   }
 
   ctx.stroke();
+});
+
+socket.on('interpretations', (data: FrequencyInterpretation[]) => {
+  document.querySelectorAll('#lights div').forEach( (element: Element, index) => {
+    const hue = data[index].tone * 360;
+    const saturation = data[index].clarity * 100;
+    const brightness = data[index].amplitude * 100;
+    (element as HTMLElement).style.backgroundColor = 'hsl(' + hue + ',' + saturation + '%,' + brightness + '%)'
+  });
 });

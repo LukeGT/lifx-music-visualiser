@@ -8,13 +8,14 @@ const io = socket_io(server);
 
 app.set('view engine', 'pug');
 app.use('/js', express.static('js'));
+app.use('/css', express.static('css'));
 
 app.get('/', (req, res) => {
   res.render('index');
 });
 
 interface ServerInterface {
-  send(type: string, data: number[]): void;
+  send(type: string, data: (number[] | FrequencyInterpretation[])): void;
 }
 
 export function start(): ServerInterface {

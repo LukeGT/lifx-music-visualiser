@@ -1,0 +1,9 @@
+#lights {
+  display: flex;
+  flex-direction: row;
+}
+
+#lights div {
+  width: 100px;
+  height: 100px;
+}

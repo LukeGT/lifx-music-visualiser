@@ -1,4 +1,5 @@
 declare module 'fft.js';
+declare module 'node-lifx';
 
 interface FrequencyInterpretation {
   amplitude: number;  // The overall loudness of these frequencies between 0 and 1, relative to prior amplitudes in this range.

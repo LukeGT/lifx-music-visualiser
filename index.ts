@@ -16,12 +16,16 @@ const recorder_instance = recorder.start(
   },
   (detailed_frequencies, responsive_frequencies) => {
 
-    server_instance.send('detailed_frequencies', detailed_frequencies.amplitudes)
-    server_instance.send('responsive_frequencies', responsive_frequencies.amplitudes);
-
     const interpretations = interpreter.interpret(detailed_frequencies, responsive_frequencies);
-    server_instance.send('interpretations', interpretations);
+    // actuator_instance.actuate(interpretations);
 
-    actuator_instance.actuate(interpretations);
+    server_instance.send('debug', {
+      detailed_frequencies: detailed_frequencies.amplitudes,
+      detailed_frequency_scaler: detailed_frequencies.frequency_scaler,
+      responsive_frequencies: responsive_frequencies.amplitudes,
+      responsive_frequency_scaler: responsive_frequencies.frequency_scaler,
+      interpretations: interpretations,
+      components: interpreter.components,
+    });
   },
 );

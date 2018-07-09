@@ -4,7 +4,7 @@ export class InterpreterSettings {
 
   readonly components: number = 1;
   readonly overlap: number = 0;
-  readonly min_hz: number = 50;
+  readonly min_hz: number = 35;
   readonly max_hz: number = 2000;
   readonly max_amplitude_decay: number = 0.99;
   readonly min_amplitude_decay: number = 0.9;
@@ -46,7 +46,7 @@ class ComponentState {
 
 export class Interpreter {
 
-  private readonly components: ComponentState[];
+  readonly components: ComponentState[];
 
   constructor (private settings: InterpreterSettings) {
 
@@ -114,15 +114,15 @@ export class Interpreter {
       const component = this.components[index];
       const neighbouring_max_amplitude = Math.max(
         this.settings.min_max_amplitude,
+        component.max_amplitude,
         index-1 >= 0 ? this.components[index-1].max_amplitude : 0,
         index+1 < this.components.length ? this.components[index+1].max_amplitude : 0,
-        component.max_amplitude,
       );
       const amplitude = Math.max(
         component.min_amplitude,
         (component.cumulative_amplitude/component.num_samples_amplitude) / neighbouring_max_amplitude
       );
-      component.min_amplitude = Math.max(component.min_amplitude, amplitude);
+      component.min_amplitude = amplitude;
 
       return {
         amplitude: amplitude,

@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 });
 
 interface ServerInterface {
-  send(type: string, data: (number[] | FrequencyInterpretation[])): void;
+  send(type: string, data: (number[] | DebugData)): void;
 }
 
 export function start(): ServerInterface {

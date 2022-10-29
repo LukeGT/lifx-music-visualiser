@@ -18,7 +18,7 @@
     "mic": "^2.1.2",
     "node-lifx": "^0.8.0",
     "pug": "^2.0.3",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.5.0"
   },
   "devDependencies": {
     "typescript": "^2.9.2"
